@@ -1,256 +1,215 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>🏏 Cricket Elite Pro</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cricket Stats Pro</title>
 
 <style>
-
-*{
+body{
+font-family:Arial, sans-serif;
 margin:0;
 padding:0;
-box-sizing:border-box;
-font-family: 'Segoe UI', sans-serif;
-}
-
-body{
 min-height:100vh;
-background:linear-gradient(-45deg,#0f2027,#1e3c72,#2a5298,#000428);
-background-size:400% 400%;
-animation:gradientMove 12s ease infinite;
+background:linear-gradient(45deg,#0f2027,#1e3c72);
 color:white;
-}
-
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-header{
-padding:20px;
-text-align:center;
-font-size:34px;
-font-weight:bold;
-letter-spacing:1px;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(10px);
-box-shadow:0 4px 15px rgba(0,0,0,0.5);
+transition:background 2s ease-in-out;
 }
 
 .container{
-width:95%;
-max-width:1200px;
-margin:30px auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:25px;
+max-width:1000px;
+margin:auto;
+padding:20px;
 }
 
-.card{
-background:rgba(255,255,255,0.07);
-backdrop-filter:blur(12px);
-border-radius:20px;
-padding:25px;
-box-shadow:0 8px 25px rgba(0,0,0,0.6);
-transition:0.3s;
+h1{
+text-align:center;
+margin-bottom:30px;
 }
 
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 12px 30px rgba(0,255,255,0.4);
-}
-
-.card h2{
-margin-bottom:15px;
-font-size:22px;
-}
-
-.bigStat{
-font-size:42px;
-font-weight:bold;
-margin:10px 0;
+.section{
+background:rgba(255,255,255,0.1);
+padding:20px;
+margin:20px 0;
+border-radius:15px;
+backdrop-filter:blur(10px);
+border:2px solid rgba(255,255,255,0.2);
 }
 
 input{
-width:100%;
 padding:10px;
-margin:8px 0;
+margin:5px;
+width:130px;
 border-radius:8px;
 border:none;
-font-weight:bold;
-text-align:center;
-}
-
-.stat{
-margin-top:8px;
-font-size:17px;
-color:#ddd;
-}
-
-.buttons{
-text-align:center;
-margin:30px 0;
 }
 
 button{
-padding:12px 22px;
-margin:8px;
+padding:10px 20px;
+margin-top:10px;
 border:none;
-border-radius:30px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
-transition:0.3s;
-}
-
-.calcBtn{
-background:linear-gradient(45deg,#ffd700,#ffae00);
 }
 
 .saveBtn{
-background:linear-gradient(45deg,#00e5ff,#0072ff);
+background:linear-gradient(45deg,#00c6ff,#0072ff);
 color:white;
 }
 
 .resetBtn{
-background:linear-gradient(45deg,#ff4b2b,#ff0000);
+background:linear-gradient(45deg,#ff416c,#ff4b2b);
 color:white;
+margin-left:10px;
 }
 
-button:hover{
-transform:scale(1.08);
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+margin-top:20px;
 }
 
-footer{
+.stat-box{
+padding:20px;
+border-radius:15px;
+font-size:18px;
 text-align:center;
-padding:15px;
-opacity:0.7;
+font-weight:bold;
 }
 
+.runsBox{background:linear-gradient(45deg,#ff512f,#dd2476);}
+.wicketsBox{background:linear-gradient(45deg,#11998e,#38ef7d);}
+.battingBox{background:linear-gradient(45deg,#f7971e,#ffd200);}
+.bowlingBox{background:linear-gradient(45deg,#00c6ff,#0072ff);}
+.matchesBox{background:linear-gradient(45deg,#8e2de2,#4a00e0);}
 </style>
 </head>
 
-<body onload="loadData()">
-
-<header>🏏 Cricket Elite Pro Dashboard</header>
+<body>
 
 <div class="container">
+<h1>🏏 Cricket Stats Dashboard</h1>
 
-<div class="card">
-<h2>👤 Player Info</h2>
-<input type="text" id="playerName" placeholder="Enter Player Name">
-</div>
+<div class="section">
+<h2>Add Match Performance</h2>
 
-<div class="card">
-<h2>🏆 Matches Played</h2>
-<div class="bigStat" id="displayMatches">0</div>
-<input type="number" id="matches" placeholder="Enter Matches">
-</div>
-
-<div class="card">
-<h2>🔥 Total Runs</h2>
-<div class="bigStat" id="displayRuns">0</div>
-<input type="number" id="runs" placeholder="Enter Runs">
+<h3>Batting</h3>
+<input type="number" id="runs" placeholder="Runs">
 <input type="number" id="balls" placeholder="Balls Played">
-<div class="stat">Strike Rate: <span id="strike">0</span></div>
-<div class="stat">Batting Average: <span id="batAvg">0</span></div>
-</div>
 
-<div class="card">
-<h2>🎯 Bowling Stats</h2>
-<div class="bigStat" id="displayWickets">0 Wkts</div>
-<input type="number" id="wickets" placeholder="Enter Wickets">
+<h3>Bowling</h3>
 <input type="number" id="runsGiven" placeholder="Runs Given">
 <input type="number" id="overs" placeholder="Overs Bowled">
-<div class="stat">Bowling Average: <span id="bowlAvg">0</span></div>
-<div class="stat">Economy Rate: <span id="eco">0</span></div>
+<input type="number" id="wickets" placeholder="Wickets">
+
+<br><br>
+<button class="saveBtn" onclick="saveStats()">SAVE STATS</button>
+<button class="resetBtn" onclick="resetStats()">RESET</button>
 </div>
+
+<div class="section">
+<h2>Career Statistics</h2>
+
+<div class="stats-grid">
+
+<div class="stat-box matchesBox" id="matchesBox"></div>
+<div class="stat-box runsBox" id="runsBox"></div>
+<div class="stat-box battingBox" id="battingBox"></div>
+<div class="stat-box wicketsBox" id="wicketsBox"></div>
+<div class="stat-box bowlingBox" id="bowlingBox"></div>
 
 </div>
 
-<div class="buttons">
-<button class="calcBtn" onclick="calculateStats()">CALCULATE</button>
-<button class="saveBtn" onclick="saveData()">SAVE DATA</button>
-<button class="resetBtn" onclick="resetData()">RESET</button>
 </div>
-
-<footer>Premium Cricket UI • Auto Save Enabled</footer>
+</div>
 
 <script>
 
-function calculateStats(){
-
-let r=parseFloat(runs.value)||0;
-let w=parseFloat(wickets.value)||0;
-let m=parseFloat(matches.value)||0;
-let b=parseFloat(balls.value)||0;
-let rg=parseFloat(runsGiven.value)||0;
-let o=parseFloat(overs.value)||0;
-
-displayRuns.innerText=r;
-displayWickets.innerText=w+" Wkts";
-displayMatches.innerText=m;
-
-strike.innerText=b>0?((r/b)*100).toFixed(2):0;
-batAvg.innerText=m>0?(r/m).toFixed(2):0;
-bowlAvg.innerText=w>0?(rg/w).toFixed(2):0;
-eco.innerText=o>0?(rg/o).toFixed(2):0;
-
-}
-
-function saveData(){
-
-calculateStats();
-
-let data={
-name:playerName.value,
-runs:runs.value,
-wickets:wickets.value,
-matches:matches.value,
-balls:balls.value,
-runsGiven:runsGiven.value,
-overs:overs.value,
-strike:strike.innerText,
-batAvg:batAvg.innerText,
-bowlAvg:bowlAvg.innerText,
-eco:eco.innerText
+// Load saved data
+let data = JSON.parse(localStorage.getItem("cricketStats")) || {
+matches:0,
+totalRuns:0,
+totalBalls:0,
+totalRunsGiven:0,
+totalOvers:0,
+totalWickets:0
 };
 
-localStorage.setItem("cricketElitePro",JSON.stringify(data));
-alert("Data Saved Successfully ✅");
+function saveStats(){
 
+let runs = Number(document.getElementById("runs").value) || 0;
+let balls = Number(document.getElementById("balls").value) || 0;
+let runsGiven = Number(document.getElementById("runsGiven").value) || 0;
+let overs = Number(document.getElementById("overs").value) || 0;
+let wickets = Number(document.getElementById("wickets").value) || 0;
+
+data.matches += 1;
+data.totalRuns += runs;
+data.totalBalls += balls;
+data.totalRunsGiven += runsGiven;
+data.totalOvers += overs;
+data.totalWickets += wickets;
+
+localStorage.setItem("cricketStats", JSON.stringify(data));
+
+displayStats();
+
+document.querySelectorAll("input").forEach(i=>i.value="");
 }
 
-function loadData(){
+function displayStats(){
 
-let saved=JSON.parse(localStorage.getItem("cricketElitePro"));
+let strikeRate = data.totalBalls>0 ? 
+((data.totalRuns/data.totalBalls)*100).toFixed(2):0;
 
-if(saved){
+let battingAvg = data.matches>0 ? 
+(data.totalRuns/data.matches).toFixed(2):0;
 
-playerName.value=saved.name||"";
-runs.value=saved.runs||"";
-wickets.value=saved.wickets||"";
-matches.value=saved.matches||"";
-balls.value=saved.balls||"";
-runsGiven.value=saved.runsGiven||"";
-overs.value=saved.overs||"";
+let economy = data.totalOvers>0 ? 
+(data.totalRunsGiven/data.totalOvers).toFixed(2):0;
 
-displayRuns.innerText=saved.runs||0;
-displayWickets.innerText=(saved.wickets||0)+" Wkts";
-displayMatches.innerText=saved.matches||0;
-strike.innerText=saved.strike||0;
-batAvg.innerText=saved.batAvg||0;
-bowlAvg.innerText=saved.bowlAvg||0;
-eco.innerText=saved.eco||0;
+let bowlingAvg = data.totalWickets>0 ? 
+(data.totalRunsGiven/data.totalWickets).toFixed(2):0;
 
+document.getElementById("matchesBox").innerHTML =
+"Matches<br>"+data.matches;
+
+document.getElementById("runsBox").innerHTML =
+"Total Runs<br>"+data.totalRuns;
+
+document.getElementById("battingBox").innerHTML =
+"Strike Rate: "+strikeRate+"<br>Bat Avg: "+battingAvg;
+
+document.getElementById("wicketsBox").innerHTML =
+"Wickets<br>"+data.totalWickets;
+
+document.getElementById("bowlingBox").innerHTML =
+"Economy: "+economy+"<br>Bowl Avg: "+bowlingAvg;
 }
 
-}
-
-function resetData(){
-localStorage.removeItem("cricketElitePro");
+function resetStats(){
+if(confirm("Reset all stats?")){
+localStorage.removeItem("cricketStats");
 location.reload();
 }
+}
+
+displayStats();
+
+
+// Auto changing background
+const gradients=[
+"linear-gradient(45deg,#0f2027,#1e3c72,#2a5298)",
+"linear-gradient(45deg,#ff512f,#dd2476,#ff6a00)",
+"linear-gradient(45deg,#00c6ff,#0072ff,#00f2fe)",
+"linear-gradient(45deg,#11998e,#38ef7d,#00b09b)"
+];
+
+let index=0;
+setInterval(()=>{
+document.body.style.background=gradients[index];
+index=(index+1)%gradients.length;
+},4000);
 
 </script>
 
