@@ -1,258 +1,255 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>SPL Site - Permanent Stats Save</title>
+<title>🏏 Cricket Elite Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
+}
+
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#1e3c72,#f12711);
-    color:white;
+min-height:100vh;
+background:linear-gradient(-45deg,#0f2027,#1e3c72,#2a5298,#000428);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
+color:white;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
 header{
-    background:linear-gradient(to right,#0f2027,#f12711);
-    padding:20px;
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+padding:20px;
+text-align:center;
+font-size:34px;
+font-weight:bold;
+letter-spacing:1px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
+box-shadow:0 4px 15px rgba(0,0,0,0.5);
 }
 
-.logo{
-    margin-bottom:10px;
-}
-
-.section{
-    padding:30px;
+.container{
+width:95%;
+max-width:1200px;
+margin:30px auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
 }
 
 .card{
-    background:#1c1c1c;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:25px;
-    box-shadow:0 0 15px rgba(0,0,0,0.6);
+background:rgba(255,255,255,0.07);
+backdrop-filter:blur(12px);
+border-radius:20px;
+padding:25px;
+box-shadow:0 8px 25px rgba(0,0,0,0.6);
+transition:0.3s;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 12px 30px rgba(0,255,255,0.4);
 }
 
-table, th, td{
-    border:1px solid #444;
+.card h2{
+margin-bottom:15px;
+font-size:22px;
 }
 
-th{
-    background:#1e3c72;
-    padding:10px;
-}
-
-td{
-    padding:10px;
-    text-align:center;
+.bigStat{
+font-size:42px;
+font-weight:bold;
+margin:10px 0;
 }
 
 input{
-    padding:6px;
-    margin:5px;
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:8px;
+border:none;
+font-weight:bold;
+text-align:center;
+}
+
+.stat{
+margin-top:8px;
+font-size:17px;
+color:#ddd;
+}
+
+.buttons{
+text-align:center;
+margin:30px 0;
 }
 
 button{
-    padding:8px 15px;
-    background:#f12711;
-    border:none;
-    cursor:pointer;
-    color:white;
-    font-weight:bold;
-    margin-top:10px;
+padding:12px 22px;
+margin:8px;
+border:none;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.calcBtn{
+background:linear-gradient(45deg,#ffd700,#ffae00);
+}
+
+.saveBtn{
+background:linear-gradient(45deg,#00e5ff,#0072ff);
+color:white;
+}
+
+.resetBtn{
+background:linear-gradient(45deg,#ff4b2b,#ff0000);
+color:white;
 }
 
 button:hover{
-    background:#ff512f;
+transform:scale(1.08);
 }
 
 footer{
-    background:#111;
-    text-align:center;
-    padding:15px;
-    margin-top:30px;
+text-align:center;
+padding:15px;
+opacity:0.7;
 }
+
 </style>
 </head>
 
 <body onload="loadData()">
 
-<header>
+<header>🏏 Cricket Elite Pro Dashboard</header>
 
-<!-- Integrated Cricket Logo -->
-<div class="logo">
-<svg width="110" height="110" viewBox="0 0 200 200">
-
-    <!-- Ball -->
-    <circle cx="100" cy="75" r="30" fill="#ff3b3b"/>
-    <path d="M80 55 Q100 75 80 95" stroke="white" stroke-width="3" fill="none"/>
-    <path d="M120 55 Q100 75 120 95" stroke="white" stroke-width="3" fill="none"/>
-
-    <!-- Bat -->
-    <rect x="130" y="25" width="15" height="95" rx="5"
-          fill="#d4a017" transform="rotate(20 130 25)"/>
-    <rect x="140" y="5" width="8" height="35"
-          fill="#8b5a2b" transform="rotate(20 140 5)"/>
-
-    <!-- Stumps -->
-    <rect x="65" y="105" width="8" height="35" fill="white"/>
-    <rect x="80" y="105" width="8" height="35" fill="white"/>
-    <rect x="95" y="105" width="8" height="35" fill="white"/>
-
-</svg>
-</div>
-
-🏏 SPL Site - Save Your Career Stats
-
-</header>
-
-<div class="section">
+<div class="container">
 
 <div class="card">
-<h2>👤 Player Profile</h2>
-
-<input type="text" id="playerName" placeholder="Enter Your Name">
-<button onclick="saveName()">Save Name</button>
-
-<p><b>Saved Player:</b> <span id="displayName">Not Saved</span></p>
+<h2>👤 Player Info</h2>
+<input type="text" id="playerName" placeholder="Enter Player Name">
 </div>
 
 <div class="card">
-<h2>🏏 Batting Details</h2>
-<input type ="number id+"matchesruns" placeholder="runs">
-<input type="number" id="batMatches" placeholder="Matches">
-<input type="number" id="batRuns" placeholder="Total Runs">
-<input type="number" id="batBalls" placeholder="Total Balls Faced">
-
-<br>
-<button onclick="calculateBatting()">Calculate</button>
-
-<table>
-<tr>
-<th>Strike Rate</th>
-<th>Average</th>
-</tr>
-<tr>
-<td id="strikeRate">0</td>
-<td id="batAverage">0</td>
-</tr>
-</table>
-
+<h2>🏆 Matches Played</h2>
+<div class="bigStat" id="displayMatches">0</div>
+<input type="number" id="matches" placeholder="Enter Matches">
 </div>
 
 <div class="card">
-<h2>🎯 Bowling Details</h2>
+<h2>🔥 Total Runs</h2>
+<div class="bigStat" id="displayRuns">0</div>
+<input type="number" id="runs" placeholder="Enter Runs">
+<input type="number" id="balls" placeholder="Balls Played">
+<div class="stat">Strike Rate: <span id="strike">0</span></div>
+<div class="stat">Batting Average: <span id="batAvg">0</span></div>
+</div>
 
-<input type="number" id="bowlOvers" placeholder="Overs Bowled">
-<input type="number" id="bowlRuns" placeholder="Runs Given">
-<input type="number" id="bowlWickets" placeholder="Wickets Taken">
-
-<br>
-<button onclick="calculateBowling()">Calculate</button>
-
-<table>
-<tr>
-<th>Bowling Average</th>
-<th>Economy</th>
-</tr>
-<tr>
-<td id="bowlAverage">0</td>
-<td id="bowlEconomy">0</td>
-</tr>
-</table>
+<div class="card">
+<h2>🎯 Bowling Stats</h2>
+<div class="bigStat" id="displayWickets">0 Wkts</div>
+<input type="number" id="wickets" placeholder="Enter Wickets">
+<input type="number" id="runsGiven" placeholder="Runs Given">
+<input type="number" id="overs" placeholder="Overs Bowled">
+<div class="stat">Bowling Average: <span id="bowlAvg">0</span></div>
+<div class="stat">Economy Rate: <span id="eco">0</span></div>
+</div>
 
 </div>
 
-<button onclick="saveAllData()">💾 SAVE ALL STATS</button>
-
+<div class="buttons">
+<button class="calcBtn" onclick="calculateStats()">CALCULATE</button>
+<button class="saveBtn" onclick="saveData()">SAVE DATA</button>
+<button class="resetBtn" onclick="resetData()">RESET</button>
 </div>
 
-<footer>
-© 2026 SPL Site | Permanent Player Dashboard CREATED BY ARYAN
-</footer>
+<footer>Premium Cricket UI • Auto Save Enabled</footer>
 
 <script>
 
-function calculateBatting(){
-    let matches = parseFloat(document.getElementById("batMatches").value);
-    let runs = parseFloat(document.getElementById("batRuns").value);
-    let balls = parseFloat(document.getElementById("batBalls").value);
+function calculateStats(){
 
-    if(matches > 0 && balls > 0){
-        let strikeRate = (runs / balls) * 100;
-        let average = runs / matches;
+let r=parseFloat(runs.value)||0;
+let w=parseFloat(wickets.value)||0;
+let m=parseFloat(matches.value)||0;
+let b=parseFloat(balls.value)||0;
+let rg=parseFloat(runsGiven.value)||0;
+let o=parseFloat(overs.value)||0;
 
-        document.getElementById("strikeRate").innerText = strikeRate.toFixed(2);
-        document.getElementById("batAverage").innerText = average.toFixed(2);
-    }
+displayRuns.innerText=r;
+displayWickets.innerText=w+" Wkts";
+displayMatches.innerText=m;
+
+strike.innerText=b>0?((r/b)*100).toFixed(2):0;
+batAvg.innerText=m>0?(r/m).toFixed(2):0;
+bowlAvg.innerText=w>0?(rg/w).toFixed(2):0;
+eco.innerText=o>0?(rg/o).toFixed(2):0;
+
 }
 
-function calculateBowling(){
-    let overs = parseFloat(document.getElementById("bowlOvers").value);
-    let runs = parseFloat(document.getElementById("bowlRuns").value);
-    let wickets = parseFloat(document.getElementById("bowlWickets").value);
+function saveData(){
 
-    if(overs > 0 && wickets > 0){
-        let average = runs / wickets;
-        let economy = runs / overs;
+calculateStats();
 
-        document.getElementById("bowlAverage").innerText = average.toFixed(2);
-        document.getElementById("bowlEconomy").innerText = economy.toFixed(2);
-    }
-}
+let data={
+name:playerName.value,
+runs:runs.value,
+wickets:wickets.value,
+matches:matches.value,
+balls:balls.value,
+runsGiven:runsGiven.value,
+overs:overs.value,
+strike:strike.innerText,
+batAvg:batAvg.innerText,
+bowlAvg:bowlAvg.innerText,
+eco:eco.innerText
+};
 
-function saveName(){
-    let name = document.getElementById("playerName").value;
-    localStorage.setItem("spl_playerName", name);
-    document.getElementById("displayName").innerText = name;
-}
+localStorage.setItem("cricketElitePro",JSON.stringify(data));
+alert("Data Saved Successfully ✅");
 
-function saveAllData(){
-
-    localStorage.setItem("spl_bMatches", batMatches.value);
-    localStorage.setItem("spl_bRuns", batRuns.value);
-    localStorage.setItem("spl_bBalls", batBalls.value);
-    localStorage.setItem("spl_strikeRate", strikeRate.innerText);
-    localStorage.setItem("spl_bAverage", batAverage.innerText);
-
-    localStorage.setItem("spl_bOvers", bowlOvers.value);
-    localStorage.setItem("spl_bowlRuns", bowlRuns.value);
-    localStorage.setItem("spl_bWickets", bowlWickets.value);
-    localStorage.setItem("spl_bowlAverage", bowlAverage.innerText);
-    localStorage.setItem("spl_bowlEconomy", bowlEconomy.innerText);
-       localStorage.setItem("spl_bRuns", batRuns.value);
-
-    alert("✅ Stats Saved Permanently!");
 }
 
 function loadData(){
 
-    displayName.innerText = localStorage.getItem("spl_playerName") || "Not Saved";
+let saved=JSON.parse(localStorage.getItem("cricketElitePro"));
 
-    batMatches.value = localStorage.getItem("spl_bMatches") || "";
-    batRuns.value = localStorage.getItem("spl_bRuns") || "";
-    batBalls.value = localStorage.getItem("spl_bBalls") || "";
-    strikeRate.innerText = localStorage.getItem("spl_strikeRate") || "0";
-    batAverage.innerText = localStorage.getItem("spl_bAverage") || "0";
+if(saved){
 
-    bowlOvers.value = localStorage.getItem("spl_bOvers") || "";
-    bowlRuns.value = localStorage.getItem("spl_bowlRuns") || "";
-    bowlWickets.value = localStorage.getItem("spl_bWickets") || "";
-    bowlAverage.innerText = localStorage.getItem("spl_bowlAverage") || "0";
-    bowlEconomy.innerText = localStorage.getItem("spl_bowlEconomy") || "0";
-    function SAVE RUNS 
-    displayruns.innertext = localstoragegetitem("spl_runs") || "not saved";
+playerName.value=saved.name||"";
+runs.value=saved.runs||"";
+wickets.value=saved.wickets||"";
+matches.value=saved.matches||"";
+balls.value=saved.balls||"";
+runsGiven.value=saved.runsGiven||"";
+overs.value=saved.overs||"";
+
+displayRuns.innerText=saved.runs||0;
+displayWickets.innerText=(saved.wickets||0)+" Wkts";
+displayMatches.innerText=saved.matches||0;
+strike.innerText=saved.strike||0;
+batAvg.innerText=saved.batAvg||0;
+bowlAvg.innerText=saved.bowlAvg||0;
+eco.innerText=saved.eco||0;
+
+}
+
+}
+
+function resetData(){
+localStorage.removeItem("cricketElitePro");
+location.reload();
 }
 
 </script>
