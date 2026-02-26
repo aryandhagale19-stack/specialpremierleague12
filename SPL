@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SPL Site - Permanent Stats Save</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#1e3c72,#f12711);
+    color:white;
+}
+
+header{
+    background:linear-gradient(to right,#0f2027,#f12711);
+    padding:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.logo{
+    margin-bottom:10px;
+}
+
+.section{
+    padding:30px;
+}
+
+.card{
+    background:#1c1c1c;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:25px;
+    box-shadow:0 0 15px rgba(0,0,0,0.6);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table, th, td{
+    border:1px solid #444;
+}
+
+th{
+    background:#1e3c72;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+}
+
+input{
+    padding:6px;
+    margin:5px;
+}
+
+button{
+    padding:8px 15px;
+    background:#f12711;
+    border:none;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#ff512f;
+}
+
+footer{
+    background:#111;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+</style>
+</head>
+
+<body onload="loadData()">
+
+<header>
+
+<!-- Integrated Cricket Logo -->
+<div class="logo">
+<svg width="110" height="110" viewBox="0 0 200 200">
+
+    <!-- Ball -->
+    <circle cx="100" cy="75" r="30" fill="#ff3b3b"/>
+    <path d="M80 55 Q100 75 80 95" stroke="white" stroke-width="3" fill="none"/>
+    <path d="M120 55 Q100 75 120 95" stroke="white" stroke-width="3" fill="none"/>
+
+    <!-- Bat -->
+    <rect x="130" y="25" width="15" height="95" rx="5"
+          fill="#d4a017" transform="rotate(20 130 25)"/>
+    <rect x="140" y="5" width="8" height="35"
+          fill="#8b5a2b" transform="rotate(20 140 5)"/>
+
+    <!-- Stumps -->
+    <rect x="65" y="105" width="8" height="35" fill="white"/>
+    <rect x="80" y="105" width="8" height="35" fill="white"/>
+    <rect x="95" y="105" width="8" height="35" fill="white"/>
+
+</svg>
+</div>
+
+🏏 SPL Site - Save Your Career Stats
+
+</header>
+
+<div class="section">
+
+<div class="card">
+<h2>👤 Player Profile</h2>
+
+<input type="text" id="playerName" placeholder="Enter Your Name">
+<button onclick="saveName()">Save Name</button>
+
+<p><b>Saved Player:</b> <span id="displayName">Not Saved</span></p>
+</div>
+
+<div class="card">
+<h2>🏏 Batting Details</h2>
+
+<input type="number" id="batMatches" placeholder="Matches">
+<input type="number" id="batRuns" placeholder="Total Runs">
+<input type="number" id="batBalls" placeholder="Total Balls Faced">
+
+<br>
+<button onclick="calculateBatting()">Calculate</button>
+
+<table>
+<tr>
+<th>Strike Rate</th>
+<th>Average</th>
+</tr>
+<tr>
+<td id="strikeRate">0</td>
+<td id="batAverage">0</td>
+</tr>
+</table>
+
+</div>
+
+<div class="card">
+<h2>🎯 Bowling Details</h2>
+
+<input type="number" id="bowlOvers" placeholder="Overs Bowled">
+<input type="number" id="bowlRuns" placeholder="Runs Given">
+<input type="number" id="bowlWickets" placeholder="Wickets Taken">
+
+<br>
+<button onclick="calculateBowling()">Calculate</button>
+
+<table>
+<tr>
+<th>Bowling Average</th>
+<th>Economy</th>
+</tr>
+<tr>
+<td id="bowlAverage">0</td>
+<td id="bowlEconomy">0</td>
+</tr>
+</table>
+
+</div>
+
+<button onclick="saveAllData()">💾 SAVE ALL STATS</button>
+
+</div>
+
+<footer>
+© 2026 SPL Site | Permanent Player Dashboard CREATED BY ARYAN
+</footer>
+
+<script>
+
+function calculateBatting(){
+    let matches = parseFloat(document.getElementById("batMatches").value);
+    let runs = parseFloat(document.getElementById("batRuns").value);
+    let balls = parseFloat(document.getElementById("batBalls").value);
+
+    if(matches > 0 && balls > 0){
+        let strikeRate = (runs / balls) * 100;
+        let average = runs / matches;
+
+        document.getElementById("strikeRate").innerText = strikeRate.toFixed(2);
+        document.getElementById("batAverage").innerText = average.toFixed(2);
+    }
+}
+
+function calculateBowling(){
+    let overs = parseFloat(document.getElementById("bowlOvers").value);
+    let runs = parseFloat(document.getElementById("bowlRuns").value);
+    let wickets = parseFloat(document.getElementById("bowlWickets").value);
+
+    if(overs > 0 && wickets > 0){
+        let average = runs / wickets;
+        let economy = runs / overs;
+
+        document.getElementById("bowlAverage").innerText = average.toFixed(2);
+        document.getElementById("bowlEconomy").innerText = economy.toFixed(2);
+    }
+}
+
+function saveName(){
+    let name = document.getElementById("playerName").value;
+    localStorage.setItem("spl_playerName", name);
+    document.getElementById("displayName").innerText = name;
+}
+
+function saveAllData(){
+
+    localStorage.setItem("spl_bMatches", batMatches.value);
+    localStorage.setItem("spl_bRuns", batRuns.value);
+    localStorage.setItem("spl_bBalls", batBalls.value);
+    localStorage.setItem("spl_strikeRate", strikeRate.innerText);
+    localStorage.setItem("spl_bAverage", batAverage.innerText);
+
+    localStorage.setItem("spl_bOvers", bowlOvers.value);
+    localStorage.setItem("spl_bowlRuns", bowlRuns.value);
+    localStorage.setItem("spl_bWickets", bowlWickets.value);
+    localStorage.setItem("spl_bowlAverage", bowlAverage.innerText);
+    localStorage.setItem("spl_bowlEconomy", bowlEconomy.innerText);
+
+    alert("✅ Stats Saved Permanently!");
+}
+
+function loadData(){
+
+    displayName.innerText = localStorage.getItem("spl_playerName") || "Not Saved";
+
+    batMatches.value = localStorage.getItem("spl_bMatches") || "";
+    batRuns.value = localStorage.getItem("spl_bRuns") || "";
+    batBalls.value = localStorage.getItem("spl_bBalls") || "";
+    strikeRate.innerText = localStorage.getItem("spl_strikeRate") || "0";
+    batAverage.innerText = localStorage.getItem("spl_bAverage") || "0";
+
+    bowlOvers.value = localStorage.getItem("spl_bOvers") || "";
+    bowlRuns.value = localStorage.getItem("spl_bowlRuns") || "";
+    bowlWickets.value = localStorage.getItem("spl_bWickets") || "";
+    bowlAverage.innerText = localStorage.getItem("spl_bowlAverage") || "0";
+    bowlEconomy.innerText = localStorage.getItem("spl_bowlEconomy") || "0";
+}
+
+</script>
+
+</body>
+</html>
